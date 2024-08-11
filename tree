@@ -1,0 +1,16 @@
+FileSyncTool/
+├── src/
+│   ├── core/
+│   │   ├── file_watcher.cpp    # 文件夹监听
+│   │   ├── file_transfer.cpp   # 文件传输
+│   │   └── conflict_resolver.cpp # 冲突解决
+│   ├── network/
+│   │   ├── server.cpp          # 文件传输服务器
+│   │   └── client.cpp          # 文件传输客户端
+│   └── main.cpp                # 主程序入口
+├── python_ui/
+│   ├── cli.py                  # 命令行界面
+│   └── gui.py                  # 图形界面（可选）
+├── CMakeLists.txt              # CMake构建脚本
+├── README.md                   # 项目说明
+└── docs/                       # 项目文档
