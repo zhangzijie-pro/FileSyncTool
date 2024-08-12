@@ -1,3 +1,0 @@
-/home/zzj/cpp/FileSyncTool/build/CMakeFiles/FileSyncTool.dir
-/home/zzj/cpp/FileSyncTool/build/CMakeFiles/edit_cache.dir
-/home/zzj/cpp/FileSyncTool/build/CMakeFiles/rebuild_cache.dir
