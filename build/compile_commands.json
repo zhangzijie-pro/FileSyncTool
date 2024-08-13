@@ -1,0 +1,27 @@
+[
+{
+  "directory": "/home/zzj/cpp/FileSyncTool/build",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -I/home/zzj/cpp/FileSyncTool/src/core -I/home/zzj/cpp/FileSyncTool/src/network -g -o CMakeFiles/FileSyncTool.dir/src/main.cpp.o -c /home/zzj/cpp/FileSyncTool/src/main.cpp",
+  "file": "/home/zzj/cpp/FileSyncTool/src/main.cpp"
+},
+{
+  "directory": "/home/zzj/cpp/FileSyncTool/build",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -I/home/zzj/cpp/FileSyncTool/src/core -I/home/zzj/cpp/FileSyncTool/src/network -g -o CMakeFiles/FileSyncTool.dir/src/core/file_watcher.cpp.o -c /home/zzj/cpp/FileSyncTool/src/core/file_watcher.cpp",
+  "file": "/home/zzj/cpp/FileSyncTool/src/core/file_watcher.cpp"
+},
+{
+  "directory": "/home/zzj/cpp/FileSyncTool/build",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -I/home/zzj/cpp/FileSyncTool/src/core -I/home/zzj/cpp/FileSyncTool/src/network -g -o CMakeFiles/FileSyncTool.dir/src/core/file_transfer.cpp.o -c /home/zzj/cpp/FileSyncTool/src/core/file_transfer.cpp",
+  "file": "/home/zzj/cpp/FileSyncTool/src/core/file_transfer.cpp"
+},
+{
+  "directory": "/home/zzj/cpp/FileSyncTool/build",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -I/home/zzj/cpp/FileSyncTool/src/core -I/home/zzj/cpp/FileSyncTool/src/network -g -o CMakeFiles/FileSyncTool.dir/src/core/conflict_resolver.cpp.o -c /home/zzj/cpp/FileSyncTool/src/core/conflict_resolver.cpp",
+  "file": "/home/zzj/cpp/FileSyncTool/src/core/conflict_resolver.cpp"
+},
+{
+  "directory": "/home/zzj/cpp/FileSyncTool/build",
+  "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -I/home/zzj/cpp/FileSyncTool/src/core -I/home/zzj/cpp/FileSyncTool/src/network -g -o CMakeFiles/FileSyncTool.dir/src/core/Loggerd.cpp.o -c /home/zzj/cpp/FileSyncTool/src/core/Loggerd.cpp",
+  "file": "/home/zzj/cpp/FileSyncTool/src/core/Loggerd.cpp"
+}
+]

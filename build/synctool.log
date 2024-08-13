@@ -1,0 +1,14 @@
+Tue Aug 13 11:52:54 2024
+:File created: ./sync_folder/test_file.txt
+Tue Aug 13 11:55:39 2024
+:File created: ./sync_folder/.test_file.txt.swp
+Tue Aug 13 11:55:51 2024
+:File created: ./sync_folder/test_file.txt
+Tue Aug 13 12:01:05 2024
+:File created: ./sync_folder/test_file.txt
+Tue Aug 13 12:02:07 2024
+:File created: ./sync_folder/test_file.txt
+Tue Aug 13 12:04:05 2024
+:File removed: ./sync_folder/test_file.txt
+Tue Aug 13 12:04:07 2024
+:File removed: ./sync_folder/.test_file.txt.swp

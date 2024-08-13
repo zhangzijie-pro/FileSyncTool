@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <boost/asio.hpp>
+#include <filesystem>
 #include "Loggerd.cpp"
 
 
@@ -87,7 +88,11 @@ public:
             std::string filename;
             input >> filename;
 
-
+            if(fs::remove(filename)){
+                logger.log("File deleted: " + filename);
+            }else{
+                logger.log("Failed to delete file: " + filename);
+            }
         }
     }
 };

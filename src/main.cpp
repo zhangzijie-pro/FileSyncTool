@@ -9,7 +9,7 @@
 using boost::asio::ip::tcp;
 
 // 服务器端：启动服务器，接收文件并处理潜在的文件冲突
-void start_server(boost::asio::io_context& io_context, unsigned short port) {
+void start_server(boost::asio::io_context& io_context, unsigned short port,Logger& logger) {
     tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), port));
 
     while (true) {
@@ -29,6 +29,7 @@ void start_server(boost::asio::io_context& io_context, unsigned short port) {
             // 调用冲突解决模块，生成解决后的文件
             std::string resolved_file = ConflictResolver::resolve_conflict(local_file, "received_file.txt");
             std::cout << "Server: Conflict resolved, result saved in " << resolved_file << std::endl;
+            logger.log("Server: Conflict resolved, result saved in " + resolved_file);
         }
     }
 }
@@ -42,9 +43,19 @@ void start_client(boost::asio::io_context& io_context, const std::string& path_t
             std::cout << "Client: File " << action << ": " << path << std::endl;
             logger.log("File " + action + ": " + path);
 
+
+            std::string backup_path = "sync_folder_backup/"+std::filesystem::relative(path,"sync_folder").string();
+            if(std::filesystem::exists(backup_path)){
+                std::string diff = file_watcher.compare_files(backup_path,path);
+                logger.log(diff);
+            }else{
+                logger.log("New backup File Created on: "+path);
+            }
+
             // 发送文件到服务器
             FileTransfer file_transfer(io_context, path);
             file_transfer.send_file(server_host, server_port);
+            file_watcher.update_backfolder(path);
         } else if (action == "removed") {
             logger.log("File removed: " + path);
 
@@ -73,7 +84,7 @@ int main(int argc, char* argv[]) {
     Logger logger("./synctool.log");
 
     if (role == "server") {
-        start_server(io_context, port);
+        start_server(io_context, port, logger);
     } else if (role == "client") {
         start_client(io_context, path_to_watch, server_host, port, logger);
     } else {
