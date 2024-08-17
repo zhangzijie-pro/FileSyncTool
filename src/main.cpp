@@ -15,21 +15,37 @@ void start_server(boost::asio::io_context& io_context, unsigned short port,Logge
     while (true) {
         std::cout << "Server: Waiting for incoming files..." << std::endl;
 
-        // 假设收到的文件命名为 "received_file.txt"
-        FileTransfer file_transfer(io_context, "received_file.txt");
-        file_transfer.receive_file(acceptor);
+        // 接收文件名
+        std::string received_file;
+        FileTransfer file_transfer(io_context, "");
 
-        // 模拟一个本地文件的路径，用于冲突检测
-        std::string local_file = "local_version_of_received_file.txt";
+        try {
+            received_file = file_transfer.receive_file(acceptor);
+            std::cout << "Server: Received file: " << received_file << std::endl;
+            logger.log("Server: Received file: " + received_file);
+        } catch (const std::exception& e) {
+            std::cerr << "Error receiving file: " << e.what() << std::endl;
+            logger.log("Error receiving file: " + std::string(e.what()));
+            continue;
+        }
+
+        // 动态生成本地文件路径用于冲突检测
+        std::string local_file = "sync_folder_backup/" + received_file;
 
         // 检查是否存在同名文件，触发冲突解决机制
         if (std::ifstream(local_file)) {
             std::cout << "Server: Conflict detected with " << local_file << std::endl;
+            logger.log("Server: Conflict detected with " + local_file);
 
             // 调用冲突解决模块，生成解决后的文件
-            std::string resolved_file = ConflictResolver::resolve_conflict(local_file, "received_file.txt");
+            std::string resolved_file = ConflictResolver::resolve_conflict(local_file, received_file);
             std::cout << "Server: Conflict resolved, result saved in " << resolved_file << std::endl;
             logger.log("Server: Conflict resolved, result saved in " + resolved_file);
+        } else {
+            // 如果没有冲突，直接将接收的文件作为新的本地文件保存
+            std::cout << "Server: No conflict detected. File saved as " << received_file << std::endl;
+            logger.log("Server: No conflict detected. File saved as " + received_file);
+            // 你可以根据需要处理文件的存储逻辑
         }
     }
 }
@@ -54,7 +70,7 @@ void start_client(boost::asio::io_context& io_context, const std::string& path_t
 
             // 发送文件到服务器
             FileTransfer file_transfer(io_context, path);
-            file_transfer.send_file(server_host, server_port);
+            file_transfer.send_file(io_context,server_host, server_port,path);
             file_watcher.update_backfolder(path);
         } else if (action == "removed") {
             logger.log("File removed: " + path);

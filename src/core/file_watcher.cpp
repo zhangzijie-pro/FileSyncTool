@@ -41,11 +41,11 @@ public:
 
                 if (std::filesystem::last_write_time(file) > paths_.at(file.path().string())) {
                     paths_[file.path().string()] = current_file_last_write_time;
-                    action(file.path().string(), "created");
+                    action(file.path().string(), "modified");
                 } else {
                     if (paths_[file.path().string()] != current_file_last_write_time) {
                         paths_[file.path().string()] = current_file_last_write_time;
-                        action(file.path().string(), "modified");
+                        action(file.path().string(), "created");
                     }
                 }
             }
@@ -82,7 +82,7 @@ public:
             }else if(i<old_lines.size()){
                 diff << "Line " << i+1 << " removed: " << std::endl;
             }else{
-                diff << "Line " << i+1 << "added: " << std::endl;
+                diff << "Line " << i+1 << " added: " << std::endl;
             }
         }
 

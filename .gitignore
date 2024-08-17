@@ -36,3 +36,5 @@ build/.cmake
 build/CMakeFiles
 build/.*
 build/build.ninja
+build/*.txt
+build/*.py
