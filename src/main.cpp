@@ -8,21 +8,23 @@
 
 using boost::asio::ip::tcp;
 
+// 本地服务器版本：监听本地电脑的文件变化
 // 服务器端：启动服务器，接收文件并处理潜在的文件冲突
-void start_server(boost::asio::io_context& io_context, unsigned short port,Logger& logger) {
+
+void start_local_server(boost::asio::io_context& io_context, unsigned short port, Logger& logger) {
     tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), port));
 
     while (true) {
-        std::cout << "Server: Waiting for incoming files..." << std::endl;
+        std::cout << "Local Server: Waiting for incoming files..." << std::endl;
 
-        // 接收文件名
+        // 接收文件
         std::string received_file;
         FileTransfer file_transfer(io_context, "");
 
         try {
             received_file = file_transfer.receive_file(acceptor);
-            std::cout << "Server: Received file: " << received_file << std::endl;
-            logger.log("Server: Received file: " + received_file);
+            std::cout << "Local Server: Received file: " << received_file << std::endl;
+            logger.log("Local Server: Received file: " + received_file);
         } catch (const std::exception& e) {
             std::cerr << "Error receiving file: " << e.what() << std::endl;
             logger.log("Error receiving file: " + std::string(e.what()));
@@ -34,19 +36,85 @@ void start_server(boost::asio::io_context& io_context, unsigned short port,Logge
 
         // 检查是否存在同名文件，触发冲突解决机制
         if (std::ifstream(local_file)) {
-            std::cout << "Server: Conflict detected with " << local_file << std::endl;
-            logger.log("Server: Conflict detected with " + local_file);
+            std::cout << "Local Server: Conflict detected with " << local_file << std::endl;
+            logger.log("Local Server: Conflict detected with " + local_file);
 
             // 调用冲突解决模块，生成解决后的文件
             std::string resolved_file = ConflictResolver::resolve_conflict(local_file, received_file);
-            std::cout << "Server: Conflict resolved, result saved in " << resolved_file << std::endl;
-            logger.log("Server: Conflict resolved, result saved in " + resolved_file);
+            std::cout << "Local Server: Conflict resolved, result saved in " << resolved_file << std::endl;
+            logger.log("Local Server: Conflict resolved, result saved in " + resolved_file);
         } else {
-            // 如果没有冲突，直接将接收的文件作为新的本地文件保存
-            std::cout << "Server: No conflict detected. File saved as " << received_file << std::endl;
-            logger.log("Server: No conflict detected. File saved as " + received_file);
-            // 你可以根据需要处理文件的存储逻辑
+            std::cout << "Local Server: No conflict detected. File saved as " << received_file << std::endl;
+            logger.log("Local Server: No conflict detected. File saved as " + received_file);
         }
+    }
+}
+
+// 远程服务器版本：监听来自客户端的文件变化
+void start_remote_server(boost::asio::io_context& io_context, unsigned short port, Logger& logger) {
+    tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), port));
+    std::string command;
+
+    while (true) {
+        std::cout << "Remote Server: Waiting for incoming files..." << std::endl;
+
+        // 接收文件
+        std::string received_file;
+        FileTransfer file_transfer(io_context, "");
+
+        try {
+            received_file = file_transfer.receive_file(acceptor);
+            std::cout << "Remote Server: Received file: " << received_file << std::endl;
+            logger.log("Remote Server: Received file: " + received_file);
+        } catch (const std::exception& e) {
+            std::cerr << "Error receiving file: " << e.what() << std::endl;
+            logger.log("Error receiving file: " + std::string(e.what()));
+            continue;
+        }
+
+        // 动态生成本地文件路径用于冲突检测
+        std::string local_file = "server_storage/" + received_file;
+
+        // 检查是否存在同名文件，触发冲突解决机制
+        if (std::ifstream(local_file)) {
+            std::cout << "Remote Server: Conflict detected with " << local_file << std::endl;
+            logger.log("Remote Server: Conflict detected with " + local_file);
+
+            std::string resolved_file = ConflictResolver::resolve_conflict(local_file, received_file);
+            std::cout << "Remote Server: Conflict resolved, result saved in " << resolved_file << std::endl;
+            logger.log("Remote Server: Conflict resolved, result saved in " + resolved_file);
+        } else {
+            std::cout << "Remote Server: No conflict detected. File saved as " << received_file << std::endl;
+            logger.log("Remote Server: No conflict detected. File saved as " + received_file);
+        }
+
+        std::cout << "Enter command: ";
+        std::getline(std::cin, command);
+
+        // Parse the command and take action
+        if (command.rfind("file check ", 0) == 0) {
+            std::string path = command.substr(11);
+            check_file_or_directory(path);
+        } else if (command == "exit") {
+            std::cout << "Exiting command line interface..." << std::endl;
+            break;
+        } else {
+            std::cout << "Unknown command. Available commands: file check <path>, exit" << std::endl;
+        }
+    }
+}
+
+void check_file_or_directory(const std::string& path) {
+    if (fs::exists(path)) {
+        if (fs::is_directory(path)) {
+            std::cout << "Path exists and it is a directory: " << path << std::endl;
+        } else if (fs::is_regular_file(path)) {
+            std::cout << "Path exists and it is a file: " << path << std::endl;
+        } else {
+            std::cout << "Path exists but it is neither a regular file nor a directory: " << path << std::endl;
+        }
+    } else {
+        std::cout << "Path does not exist: " << path << std::endl;
     }
 }
 
@@ -86,25 +154,62 @@ void start_client(boost::asio::io_context& io_context, const std::string& path_t
 }
 
 int main(int argc, char* argv[]) {
-    if (argc != 2) {
-        std::cerr << "Usage: " << argv[0] << " <server|client>" << std::endl;
+    if (argc < 3 || argc > 5) {
+        std::cerr << "Usage: " << argv[0] << " <mode> <role> [server_ip] [server_port]" << std::endl;
+        std::cerr << "mode: local or remote" << std::endl;
+        std::cerr << "role: server or client" << std::endl;
+        std::cerr << "server_ip: IP address of the remote server (for client only)" << std::endl;
+        std::cerr << "server_port: Port number of the remote server (for client only)" << std::endl;
         return 1;
     }
 
     boost::asio::io_context io_context;
 
-    std::string role = argv[1];
+    std::string mode = argv[1];
+    std::string role = argv[2];
     std::string path_to_watch = "./sync_folder";
-    std::string server_host = "127.0.0.1";
+    std::string server_host;
     unsigned short port = 12345;
     Logger logger("./synctool.log");
 
-    if (role == "server") {
-        start_server(io_context, port, logger);
-    } else if (role == "client") {
-        start_client(io_context, path_to_watch, server_host, port, logger);
+    if (mode == "remote") {
+        if (argc != 5) {
+            std::cerr << "For remote mode, you must specify server_ip and server_port." << std::endl;
+            return 1;
+        }
+        server_host = argv[3];
+        port = static_cast<unsigned short>(std::stoi(argv[4]));
+    } else if (mode == "local") {
+        if (argc != 3) {
+            std::cerr << "For local mode, no additional arguments are needed." << std::endl;
+            return 1;
+        }
     } else {
-        std::cerr << "Invalid role: " << role << std::endl;
+        std::cerr << "Invalid mode: " << mode << std::endl;
+        return 1;
+    }
+
+    if (mode == "local") {
+        if(role=="server"){
+            start_local_server(io_context,port,logger);
+        }else if(role=="client"){
+            server_host="127.0.0.1";
+            start_client(io_context, path_to_watch, server_host, port, logger);
+        }else{
+            std::cerr << "Invalid role: " << role << std::endl;
+            return 1;
+        }
+    } else if (mode == "remote") {
+        if(role=="server"){
+            start_remote_server(io_context,port,logger);
+        }else if(role=="client"){
+            start_client(io_context, path_to_watch, server_host, port, logger);
+        }else{
+            std::cerr << "Invalid role: " << role << std::endl;
+            return 1;
+        }
+    } else {
+        std::cerr << "Invalid mode: " << role << std::endl;
         return 1;
     }
 
