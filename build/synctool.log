@@ -320,3 +320,252 @@ Fri Aug 16 18:11:39 2024
 Fri Aug 16 18:11:39 2024
 :Server: Conflict resolved, result saved in resolved_file.txt
 
+------------------------------------------
+Wed Aug 21 22:29:12 2024
+ -> File modified: ./sync_folder/a.py
+
+------------------------------------------
+Wed Aug 21 22:29:12 2024
+ -> Changes in file: ./sync_folder/a.py
+Line 16 added: 
+Line 17 added: 
+
+
+------------------------------------------
+Wed Aug 21 22:29:12 2024
+ -> Local Server: Received file: a.py
+
+------------------------------------------
+Wed Aug 21 22:29:12 2024
+ -> Local Server: Conflict detected with sync_folder_backup/a.py
+
+------------------------------------------
+Wed Aug 21 22:29:12 2024
+ -> Local Server: Conflict resolved, result saved in resolved_a.py
+
+------------------------------------------
+Wed Aug 21 22:31:54 2024
+ -> File modified: ./sync_folder/a.py
+
+------------------------------------------
+Wed Aug 21 22:31:54 2024
+ -> Changes in file: ./sync_folder/a.py
+Line 18 added: 
+Line 19 added: 
+Line 20 added: 
+Line 21 added: 
+Line 22 added: 
+
+
+------------------------------------------
+Wed Aug 21 22:31:54 2024
+ -> Remote Server: Received file: a.py
+
+------------------------------------------
+Wed Aug 21 22:31:54 2024
+ -> Remote Server: No conflict detected. File saved as a.py
+
+------------------------------------------
+Wed Aug 21 22:57:19 2024
+ -> File modified: ./sync_folder/file.txt
+
+------------------------------------------
+Wed Aug 21 22:57:19 2024
+ -> Changes in file: ./sync_folder/file.txt
+Line 1 added: 
+Line 2 added: 
+Line 3 added: 
+
+
+------------------------------------------
+Wed Aug 21 22:57:19 2024
+ -> Remote Server: Received file: file.txt
+
+------------------------------------------
+Wed Aug 21 22:57:19 2024
+ -> Remote Server: No conflict detected. File saved as file.txt
+
+------------------------------------------
+Wed Aug 21 22:57:49 2024
+ -> File modified: ./sync_folder/file.txt
+
+------------------------------------------
+Wed Aug 21 22:57:49 2024
+ -> Changes in file: ./sync_folder/file.txt
+Line 1 added: 
+Line 2 added: 
+Line 3 added: 
+Line 4 added: 
+
+
+------------------------------------------
+Wed Aug 21 23:06:50 2024
+ -> File modified: ./sync_folder/file.txt
+
+------------------------------------------
+Wed Aug 21 23:06:50 2024
+ -> Changes in file: ./sync_folder/file.txt
+
+
+------------------------------------------
+Wed Aug 21 23:06:50 2024
+ -> Remote Server: Received file: file.txt
+
+------------------------------------------
+Wed Aug 21 23:06:50 2024
+ -> Remote Server: No conflict detected. File saved as file.txt
+
+------------------------------------------
+Wed Aug 21 23:06:54 2024
+ -> File modified: ./sync_folder/file.txt
+
+------------------------------------------
+Wed Aug 21 23:06:54 2024
+ -> New backup File Created on: ./sync_folder/file.txt
+
+------------------------------------------
+Wed Aug 21 23:06:58 2024
+ -> File modified: ./sync_folder/file.txt
+
+------------------------------------------
+Wed Aug 21 23:06:58 2024
+ -> New backup File Created on: ./sync_folder/file.txt
+
+------------------------------------------
+Wed Aug 21 23:12:02 2024
+ -> File modified: ./sync_folder/a.py
+
+------------------------------------------
+Wed Aug 21 23:12:02 2024
+ -> Changes in file: ./sync_folder/a.py
+Line 18 removed: 
+Line 19 removed: 
+Line 20 removed: 
+Line 21 removed: 
+Line 22 removed: 
+
+
+------------------------------------------
+Wed Aug 21 23:12:02 2024
+ -> Remote Server: Received file: a.py
+
+------------------------------------------
+Wed Aug 21 23:12:02 2024
+ -> Remote Server: No conflict detected. File saved as a.py
+
+------------------------------------------
+Wed Aug 21 23:12:04 2024
+ -> File modified: ./sync_folder/a.py
+
+------------------------------------------
+Wed Aug 21 23:12:04 2024
+ -> New backup File Created on: ./sync_folder/a.py
+
+------------------------------------------
+Wed Aug 21 23:12:08 2024
+ -> Remote Server: Received file: a.py
+
+------------------------------------------
+Wed Aug 21 23:12:08 2024
+ -> Remote Server: No conflict detected. File saved as a.py
+
+------------------------------------------
+Wed Aug 21 23:14:04 2024
+ -> File modified: ./sync_folder/a.py
+
+------------------------------------------
+Wed Aug 21 23:14:04 2024
+ -> New backup File Created on: ./sync_folder/a.py
+
+------------------------------------------
+Wed Aug 21 23:14:04 2024
+ -> Remote Server: Received file: a.py
+
+------------------------------------------
+Wed Aug 21 23:14:04 2024
+ -> Remote Server: No conflict detected. File saved as a.py
+
+------------------------------------------
+Wed Aug 21 23:14:38 2024
+ -> File modified: ./sync_folder/a.py
+
+------------------------------------------
+Wed Aug 21 23:14:38 2024
+ -> New backup File Created on: ./sync_folder/a.py
+
+------------------------------------------
+Wed Aug 21 23:14:38 2024
+ -> Local Server: Received file: a.py
+
+------------------------------------------
+Wed Aug 21 23:14:38 2024
+ -> Local Server: No conflict detected. File saved as a.py
+
+------------------------------------------
+Wed Aug 21 23:14:44 2024
+ -> File modified: ./sync_folder/a.py
+
+------------------------------------------
+Wed Aug 21 23:14:44 2024
+ -> New backup File Created on: ./sync_folder/a.py
+
+------------------------------------------
+Wed Aug 21 23:14:44 2024
+ -> Local Server: Received file: a.py
+
+------------------------------------------
+Wed Aug 21 23:14:44 2024
+ -> Local Server: No conflict detected. File saved as a.py
+
+------------------------------------------
+Wed Aug 21 23:14:51 2024
+ -> File modified: ./sync_folder/a.py
+
+------------------------------------------
+Wed Aug 21 23:14:51 2024
+ -> New backup File Created on: ./sync_folder/a.py
+
+------------------------------------------
+Wed Aug 21 23:14:51 2024
+ -> Local Server: Received file: a.py
+
+------------------------------------------
+Wed Aug 21 23:14:51 2024
+ -> Local Server: No conflict detected. File saved as a.py
+
+------------------------------------------
+Wed Aug 21 23:14:55 2024
+ -> File modified: ./sync_folder/a.py
+
+------------------------------------------
+Wed Aug 21 23:14:55 2024
+ -> New backup File Created on: ./sync_folder/a.py
+
+------------------------------------------
+Wed Aug 21 23:14:55 2024
+ -> Local Server: Received file: a.py
+
+------------------------------------------
+Wed Aug 21 23:14:55 2024
+ -> Local Server: No conflict detected. File saved as a.py
+
+------------------------------------------
+Wed Aug 21 23:20:30 2024
+ -> File modified: ./sync_folder/file.txt
+
+------------------------------------------
+Wed Aug 21 23:20:30 2024
+ -> New backup File Created on: ./sync_folder/file.txt
+
+------------------------------------------
+Wed Aug 21 23:20:30 2024
+ -> Local Server: Received file: file.txt
+
+------------------------------------------
+Wed Aug 21 23:20:30 2024
+ -> Local Server: Conflict detected with sync_folder_backup/file.txt_20240821_232030
+
+------------------------------------------
+Wed Aug 21 23:20:30 2024
+ -> Local Server: Conflict resolved, result saved in file.txt_20240821_232030
+

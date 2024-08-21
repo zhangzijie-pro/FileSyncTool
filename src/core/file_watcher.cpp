@@ -53,9 +53,36 @@ public:
     }
 
     void update_backfolder(const std::string& path){
-        std::string back_path = backup_folder+'/'+fs::relative(path,path_to_watch).string();
-        fs::create_directories(fs::path(back_path).parent_path());
-        fs::copy_file(path,back_path,fs::copy_options::overwrite_existing);
+        auto now = std::chrono::system_clock::now();
+        auto now_time_t = std::chrono::system_clock::to_time_t(now);
+        std::stringstream timestamp;
+        timestamp << std::put_time(std::localtime(&now_time_t), "%Y%m%d_%H%M%S");
+
+        // 创建备份文件路径
+        std::string back_path = backup_folder + '/' + fs::relative(path, path_to_watch).string();
+        std::string backup_dir = back_path + "_" + timestamp.str(); // 加入时间戳到路径中
+        fs::create_directories(fs::path(backup_dir).parent_path());
+        
+        // 复制源文件到备份路径
+        fs::copy_file(path, backup_dir, fs::copy_options::overwrite_existing);
+
+        // 查找并删除旧的备份版本
+        std::vector<fs::directory_entry> backups;
+        for (const auto& entry : fs::directory_iterator(backup_folder)) {
+            if (entry.is_regular_file() && entry.path().string().find(back_path) != std::string::npos) {
+                backups.push_back(entry);
+            }
+        }
+
+        if (backups.size() > 1) {
+            // 排序以找到最旧的备份文件
+            std::sort(backups.begin(), backups.end(), [](const fs::directory_entry& a, const fs::directory_entry& b) {
+                return fs::last_write_time(a) < fs::last_write_time(b);
+            });
+
+            // 删除最旧的备份文件
+            fs::remove(backups.front());
+        }
     }
 
     std::string compare_files(const std::string& old_file, const std::string& new_file){

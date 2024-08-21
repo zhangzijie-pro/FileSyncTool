@@ -45,8 +45,15 @@ void start_local_server(boost::asio::io_context& io_context, unsigned short port
             continue;
         }
 
+        auto now = std::chrono::system_clock::now();
+        auto now_time_t = std::chrono::system_clock::to_time_t(now);
+        std::stringstream timestamp;
+        timestamp << std::put_time(std::localtime(&now_time_t), "%Y%m%d_%H%M%S");
+
+        std::string time_received_file = received_file+ "_" + timestamp.str();
+
         // 动态生成本地文件路径用于冲突检测
-        std::string local_file = "sync_folder_backup/" + received_file;
+        std::string local_file = "sync_folder_backup/" + time_received_file;
 
         // 检查是否存在同名文件，触发冲突解决机制
         if (std::ifstream(local_file)) {
@@ -54,9 +61,9 @@ void start_local_server(boost::asio::io_context& io_context, unsigned short port
             logger.log("Local Server: Conflict detected with " + local_file);
 
             // 调用冲突解决模块，生成解决后的文件
-            std::string resolved_file = ConflictResolver::resolve_conflict(local_file, received_file);
-            std::cout << "Local Server: Conflict resolved, result saved in " << resolved_file << std::endl;
-            logger.log("Local Server: Conflict resolved, result saved in " + resolved_file);
+            std::string resolved_file = ConflictResolver::resolve_conflict(local_file, time_received_file);
+            std::cout << "Local Server: Conflict resolved, result saved in " << time_received_file << std::endl;
+            logger.log("Local Server: Conflict resolved, result saved in " + time_received_file);
         } else {
             std::cout << "Local Server: No conflict detected. File saved as " << received_file << std::endl;
             logger.log("Local Server: No conflict detected. File saved as " + received_file);
@@ -67,7 +74,6 @@ void start_local_server(boost::asio::io_context& io_context, unsigned short port
 // 远程服务器版本：监听来自客户端的文件变化
 void start_remote_server(boost::asio::io_context& io_context, unsigned short port, Logger& logger) {
     tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), port));
-    std::string command;
 
     while (true) {
         std::cout << "Remote Server: Waiting for incoming files..." << std::endl;
@@ -102,19 +108,6 @@ void start_remote_server(boost::asio::io_context& io_context, unsigned short por
             logger.log("Remote Server: No conflict detected. File saved as " + received_file);
         }
 
-        std::cout << "Enter command: ";
-        std::getline(std::cin, command);
-
-        // Parse the command and take action
-        if (command.rfind("file check ", 0) == 0) {
-            std::string path = command.substr(11);
-            check_file_or_directory(path);
-        } else if (command == "exit") {
-            std::cout << "Exiting command line interface..." << std::endl;
-            break;
-        } else {
-            std::cout << "Unknown command. Available commands: file check <path>, exit" << std::endl;
-        }
     }
 }
 
@@ -151,6 +144,26 @@ void start_client(boost::asio::io_context& io_context, const std::string& path_t
 
     // 开始监控
     file_watcher.start(on_change);
+}
+
+void cli_file_check(){
+    std::string command;
+
+    while(true){
+        std::cout << "Enter command: ";
+        std::getline(std::cin, command);
+
+        // Parse the command and take action
+        if (command.rfind("file check ", 0) == 0) {
+            std::string path = command.substr(11);
+            check_file_or_directory(path);
+        } else if (command == "exit") {
+            std::cout << "Exiting command line interface..." << std::endl;
+            break;
+        } else {
+            std::cout << "Unknown command. Available commands: file check <path>, exit" << std::endl;
+        }
+    }
 }
 
 int main(int argc, char* argv[]) {
@@ -212,6 +225,9 @@ int main(int argc, char* argv[]) {
         std::cerr << "Invalid mode: " << role << std::endl;
         return 1;
     }
+
+    std::thread cli_thread(cli_file_check);
+    cli_thread.join();
 
     return 0;
 }

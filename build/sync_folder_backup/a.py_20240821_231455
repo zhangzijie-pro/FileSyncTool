@@ -13,3 +13,5 @@ def bool(value) -> bool:
         return False
     
 bool_value = bool(path)
+
+print("who?")
