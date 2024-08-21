@@ -5,11 +5,25 @@
 #include "file_watcher.cpp"
 #include "conflict_resolver.cpp"
 
+void check_file_or_directory(const std::string& path) {
+    if (fs::exists(path)) {
+        if (fs::is_directory(path)) {
+            std::cout << "Path exists and it is a directory: " << path << std::endl;
+        } else if (fs::is_regular_file(path)) {
+            std::cout << "Path exists and it is a file: " << path << std::endl;
+        } else {
+            std::cout << "Path exists but it is neither a regular file nor a directory: " << path << std::endl;
+        }
+    } else {
+        std::cout << "Path does not exist: " << path << std::endl;
+    }
+}
 
 using boost::asio::ip::tcp;
 
 // 本地服务器版本：监听本地电脑的文件变化
 // 服务器端：启动服务器，接收文件并处理潜在的文件冲突
+
 
 void start_local_server(boost::asio::io_context& io_context, unsigned short port, Logger& logger) {
     tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), port));
@@ -101,20 +115,6 @@ void start_remote_server(boost::asio::io_context& io_context, unsigned short por
         } else {
             std::cout << "Unknown command. Available commands: file check <path>, exit" << std::endl;
         }
-    }
-}
-
-void check_file_or_directory(const std::string& path) {
-    if (fs::exists(path)) {
-        if (fs::is_directory(path)) {
-            std::cout << "Path exists and it is a directory: " << path << std::endl;
-        } else if (fs::is_regular_file(path)) {
-            std::cout << "Path exists and it is a file: " << path << std::endl;
-        } else {
-            std::cout << "Path exists but it is neither a regular file nor a directory: " << path << std::endl;
-        }
-    } else {
-        std::cout << "Path does not exist: " << path << std::endl;
     }
 }
 
