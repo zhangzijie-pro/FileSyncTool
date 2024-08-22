@@ -142,28 +142,23 @@ class FileSyncUI(tk.Tk):
 
 
     def check_log_updates(self):
-            try:
-                with open(self.log_file, 'r') as a:
-                    # Move to the last read position
-                    a.seek(self.last_log_position)
-                    
-                    # Read any new lines
-                    new_lines = a.readlines()
-                    
-                    # Update the log output with the new lines
-                    if new_lines:
-                        for line in new_lines:
-                            self.log_output.insert(tk.END, line)
-                        self.log_output.yview(tk.END)  # Scroll to the end of the output
+        try:
+            with open(self.log_file, 'r') as a:
+                a.seek(self.last_log_position)
+                
+                new_lines = a.readlines()
+                
+                if new_lines:
+                    for line in new_lines:
+                        self.log_output.insert(tk.END, line)
+                    self.log_output.yview(tk.END)  # Scroll to the end of the output
 
-                    # Update the last read position
-                    self.last_log_position = a.tell()
+                self.last_log_position = a.tell()
 
-            except FileNotFoundError:
-                pass  # Handle the case where the log file doesn't exist yet
-
-            # Check again after 1 second
-            self.after(1000, self.check_log_updates)
+        except FileNotFoundError:
+            pass
+        
+        self.after(1000, self.check_log_updates)
 
 if __name__ == "__main__":
     app = FileSyncUI()
