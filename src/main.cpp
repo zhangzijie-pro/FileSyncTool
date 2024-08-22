@@ -180,6 +180,9 @@ int main(int argc, char* argv[]) {
 
     std::string mode = argv[1];
     std::string role = argv[2];
+
+    std::string current_path = fs::current_path().string();
+
     std::string path_to_watch = "./sync_folder";
     std::string server_host;
     unsigned short port = 12345;

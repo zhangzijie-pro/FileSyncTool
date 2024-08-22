@@ -19,6 +19,6 @@ WORKDIR /workspace
 
 COPY . /workspace
 
-RUN cmake . && make
+RUN cd build && cmake .. && make
 
 CMD ["/bin/bash"]
