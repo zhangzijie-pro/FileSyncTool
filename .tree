@@ -9,8 +9,7 @@ FileSyncTool/
 │   │   └── client.cpp          # 文件传输客户端
 │   └── main.cpp                # 主程序入口
 ├── python_ui/
-│   ├── cli.py                  # 命令行界面
 │   └── gui.py                  # 图形界面（可选）
 ├── CMakeLists.txt              # CMake构建脚本
 ├── README.md                   # 项目说明
-└── docs/                       # 项目文档
+└── Dockerfile                  # Docker环境

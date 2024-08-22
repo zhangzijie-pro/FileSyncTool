@@ -6,17 +6,26 @@
 
 使用步骤如下：
 ```bash
+Docker构建:
+    docker build -t filesync-tool .
+    docker run -it filesync-tool
+
+本地构建项目:
     cd build
     cmake ..
     make
 
-    local: (本地)
-    ./FileSyncTool local server
-    ./FileSyncTool local client
+使用方式有:
+    1.
+        local: (本地)
+        ./FileSyncTool local server
+        ./FileSyncTool local client
 
 
-    remote: (服务器)
-        ./FileSyncTool remote server <ip: default: 127.0.0.1> <port>
-    local:
-        ./FileSyncTool remote client <remote ip> <port>
+        remote: (服务器)
+            ./FileSyncTool remote server <ip: default: 127.0.0.1> <port>
+        local:
+            ./FileSyncTool remote client <remote ip> <port>
+    2.
+        python_ui/gui.py运行
 ```
