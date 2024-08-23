@@ -8,7 +8,7 @@ find_package(Boost REQUIRED COMPONENTS system)
 include_directories(${Boost_INCLUDE_DIRS})
 
 # 包含目录
-include_directories(src/core src/network)
+include_directories(src/core src/network src/mode)
 
 # 添加可执行文件
 add_executable(FileSyncTool src/main.cpp src/core/file_watcher.cpp src/core/file_transfer.cpp src/core/conflict_resolver.cpp src/core/Loggerd.cpp)
