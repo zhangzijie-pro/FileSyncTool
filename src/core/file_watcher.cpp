@@ -52,7 +52,13 @@ public:
         }
     }
 
-    void update_backfolder(const std::string& path){
+    void update_local_backfolder(const std::string& path){
+        std::string back_path = backup_folder + '/' + fs::relative(path, path_to_watch).string();
+        fs::create_directories(fs::path(back_path).parent_path());
+        fs::copy_file(path, back_path, fs::copy_options::overwrite_existing);
+    }
+
+    void update_remote_backfolder(const std::string& path){
         auto now = std::chrono::system_clock::now();
         auto now_time_t = std::chrono::system_clock::to_time_t(now);
         std::stringstream timestamp;

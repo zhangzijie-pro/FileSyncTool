@@ -26,14 +26,22 @@ void start_remote_server(boost::asio::io_context& io_context, unsigned short por
             continue;
         }
 
+        auto now = std::chrono::system_clock::now();
+        auto now_time_t = std::chrono::system_clock::to_time_t(now);
+        std::stringstream timestamp;
+        timestamp << std::put_time(std::localtime(&now_time_t), "%Y%m%d_%H%M%S");
+
+        std::string time_received_file = received_file+ "_" + timestamp.str();
+
         // 动态生成本地文件路径用于冲突检测
-        std::string local_file = "server_work_app/" + received_file;
+        std::string local_file = "work_backup" + time_received_file;
 
         // 检查是否存在同名文件，触发冲突解决机制
         if (std::ifstream(local_file)) {
             std::cout << "Remote Server: Conflict detected with " << local_file << std::endl;
             logger.log("Remote Server: Conflict detected with " + local_file);
 
+            // 调用冲突解决模块，生成解决后的文件
             std::string resolved_file = ConflictResolver::resolve_conflict(local_file, received_file);
             std::cout << "Remote Server: Conflict resolved, result saved in " << resolved_file << std::endl;
             logger.log("Remote Server: Conflict resolved, result saved in " + resolved_file);

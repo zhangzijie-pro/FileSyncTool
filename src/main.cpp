@@ -11,7 +11,7 @@
 using boost::asio::ip::tcp;
 
 // 客户端：监控文件夹，检测文件变化并发送文件到服务器
-void start_client(boost::asio::io_context& io_context, const std::string& path_to_watch, const std::string& server_host, unsigned short server_port, Logger& logger) {
+void start_local_client(boost::asio::io_context& io_context, const std::string& path_to_watch, const std::string& server_host, unsigned short server_port, Logger& logger) {
     FileWatcher file_watcher(path_to_watch, std::chrono::seconds(2));
 
     auto on_change = [&](const std::string& path, const std::string& action) {
@@ -19,8 +19,7 @@ void start_client(boost::asio::io_context& io_context, const std::string& path_t
             std::cout << "Client: File " << action << ": " << path << std::endl;
             logger.log("File " + action + ": " + path);
 
-
-            std::string backup_path = "sync_folder_backup/"+std::filesystem::relative(path,"sync_folder").string();
+            std::string backup_path = "sync_folder_backup/"+std::filesystem::relative(path,path_to_watch).string();
             if(std::filesystem::exists(backup_path)){
                 std::string diff = file_watcher.compare_files(backup_path,path);
                 logger.log(diff);
@@ -31,7 +30,7 @@ void start_client(boost::asio::io_context& io_context, const std::string& path_t
             // 发送文件到服务器
             FileTransfer file_transfer(io_context, path);
             file_transfer.send_file(io_context,server_host, server_port,path);
-            file_watcher.update_backfolder(path);
+            file_watcher.update_local_backfolder(path);
         } else if (action == "removed") {
             logger.log("File removed: " + path);
 
@@ -53,11 +52,50 @@ void start_local_mode(boost::asio::io_context& io_context, const std::string& pa
 
     std::thread client_local([&](){
         const std::string &server_host = "127.0.0.1";
-        start_client(io_context,path_to_watch,server_host,server_port,logger);
+        start_local_client(io_context,path_to_watch,server_host,server_port,logger);
     });
 
     server_local.join();
     client_local.join();
+}
+
+void start_remote_client(boost::asio::io_context& io_context, const std::string& path_to_watch, const std::string& server_host, unsigned short server_port, Logger& logger) {
+    FileWatcher file_watcher(path_to_watch, std::chrono::seconds(2));
+
+    auto on_change = [&](const std::string& path, const std::string& action) {
+        if (action == "created" || action == "modified") {
+            std::cout << "Client: File " << action << ": " << path << std::endl;
+            logger.log("File " + action + ": " + path);
+
+
+            auto now = std::chrono::system_clock::now();
+            auto now_time_t = std::chrono::system_clock::to_time_t(now);
+            std::stringstream timestamp;
+            timestamp << std::put_time(std::localtime(&now_time_t), "%Y%m%d_%H%M%S");
+
+            std::string backup_path = "work_backup/"+std::filesystem::relative(path,path_to_watch).string() + "_" + timestamp.str();
+            if(std::filesystem::exists(backup_path)){
+                std::string diff = file_watcher.compare_files(backup_path,path);
+                logger.log(diff);
+            }else{
+                logger.log("New backup File Created on: "+path);
+            }
+
+            // 发送文件到服务器
+            FileTransfer file_transfer(io_context, path);
+            file_transfer.send_file(io_context,server_host, server_port,path);
+            file_watcher.update_remote_backfolder(path);
+        } else if (action == "removed") {
+            logger.log("File removed: " + path);
+
+            // 创建一个 FileTransfer 对象用于删除文件同步
+            FileTransfer file_transfer(io_context, path);
+            file_transfer.delete_file(server_host, server_port, path);
+        }
+    };
+
+    // 开始监控
+    file_watcher.start(on_change);
 }
 
 int main(int argc, char* argv[]) {
@@ -97,7 +135,7 @@ int main(int argc, char* argv[]) {
         if (role == "server") {
             start_remote_server(io_context, port, logger);
         } else if (role == "client") {
-            start_client(io_context, path_to_watch, server_host, port, logger);
+            start_remote_client(io_context, path_to_watch, server_host, port, logger);
         } else {
             std::cerr << "Invalid role: " << role << std::endl;
             return 1;

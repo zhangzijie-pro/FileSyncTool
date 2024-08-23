@@ -14,6 +14,9 @@ def bool(value) -> bool:
     
 bool_value = bool(path)
 
+def sdad():
+    pass
+print('')
 class Animal():
     x = 1
     y = 2
@@ -27,3 +30,8 @@ class Animal():
         print("i'm tiger")
 
 print("who?")
+
+123
+456
+
+locals
