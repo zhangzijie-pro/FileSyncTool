@@ -92,9 +92,15 @@ class FileSyncUI(tk.Tk):
         # 根据模式启用或禁用IP和端口输入框
         if self.mode_var.get() == "local":
             self.ip_entry.config(state=tk.DISABLED)
+            self.role_label.config(state=tk.DISABLED)
+            self.client_radio.config(state=tk.DISABLED)
+            self.server_radio.config(state=tk.DISABLED)
         else:
             self.ip_entry.config(state=tk.NORMAL)
             self.port_entry.config(state=tk.NORMAL)
+            self.role_label.config(state=tk.NORMAL)
+            self.client_radio.config(state=tk.NORMAL)
+            self.server_radio.config(state=tk.NORMAL)
 
     def browse_folder(self):
         folder_selected = filedialog.askdirectory()
@@ -123,7 +129,7 @@ class FileSyncUI(tk.Tk):
 
 
             if mode == "local":
-                command = ["../build/FileSyncTool", "local", role]
+                command = ["../build/FileSyncTool", "local"]
             else:  # remote mode
                 command = ["../build/FileSyncTool", "remote", role, ip_address, port]
 
