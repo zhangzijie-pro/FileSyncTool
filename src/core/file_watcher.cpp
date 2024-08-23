@@ -48,7 +48,7 @@ public:
                         action(file.path().string(), "created");
                     }
                 }
-            }
+            }    
         }
     }
 

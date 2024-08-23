@@ -11,6 +11,19 @@ def bool(value) -> bool:
         return value
     else:
         return False
+    
 bool_value = bool(path)
+
+class Animal():
+    x = 1
+    y = 2
+    def __init__(self) -> None:
+        pass
+
+    def lion():
+        pass
+
+    def tiger():
+        print("i'm tiger")
 
 print("who?")

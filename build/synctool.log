@@ -1,0 +1,184 @@
+------------------------------------------
+Fri Aug 23 19:52:23 2024
+ -> File modified: ./sync_folder/a.py
+
+------------------------------------------
+Fri Aug 23 19:52:23 2024
+ -> New backup File Created on: ./sync_folder/a.py
+
+------------------------------------------
+Fri Aug 23 19:52:23 2024
+ -> Local Server: Received file: a.py
+
+------------------------------------------
+Fri Aug 23 19:52:23 2024
+ -> Local Server: Conflict detected with sync_folder_backup/a.py_20240823_195223
+
+------------------------------------------
+Fri Aug 23 19:52:23 2024
+ -> Local Server: Conflict resolved, result saved in resolved_a.py_20240823_195223
+
+------------------------------------------
+Fri Aug 23 19:54:21 2024
+ -> File modified: ./sync_folder/a.py
+
+------------------------------------------
+Fri Aug 23 19:54:21 2024
+ -> New backup File Created on: ./sync_folder/a.py
+
+------------------------------------------
+Fri Aug 23 19:54:21 2024
+ -> Local Server: Received file: a.py
+
+------------------------------------------
+Fri Aug 23 19:54:21 2024
+ -> Local Server: Conflict detected with sync_folder_backup/a.py_20240823_195421
+
+------------------------------------------
+Fri Aug 23 19:54:21 2024
+ -> Local Server: Conflict resolved, result saved in resolved_a.py_20240823_195421
+
+------------------------------------------
+Fri Aug 23 19:55:15 2024
+ -> File removed: ./sync_folder/file.txt
+
+------------------------------------------
+Fri Aug 23 19:55:15 2024
+ -> Error receiving file: Failed to open file for writing.
+
+------------------------------------------
+Fri Aug 23 19:55:59 2024
+ -> File modified: ./sync_folder/a.py
+
+------------------------------------------
+Fri Aug 23 19:55:59 2024
+ -> New backup File Created on: ./sync_folder/a.py
+
+------------------------------------------
+Fri Aug 23 19:55:59 2024
+ -> Local Server: Received file: a.py
+
+------------------------------------------
+Fri Aug 23 19:55:59 2024
+ -> Local Server: Conflict detected with sync_folder_backup/a.py_20240823_195559
+
+------------------------------------------
+Fri Aug 23 19:55:59 2024
+ -> Local Server: Conflict resolved, result saved in resolved_a.py_20240823_195559
+
+------------------------------------------
+Fri Aug 23 19:56:13 2024
+ -> File modified: ./sync_folder/a.py
+
+------------------------------------------
+Fri Aug 23 19:56:13 2024
+ -> New backup File Created on: ./sync_folder/a.py
+
+------------------------------------------
+Fri Aug 23 19:56:13 2024
+ -> Local Server: Received file: a.py
+
+------------------------------------------
+Fri Aug 23 19:56:13 2024
+ -> Local Server: Conflict detected with sync_folder_backup/a.py_20240823_195613
+
+------------------------------------------
+Fri Aug 23 19:56:13 2024
+ -> Local Server: Conflict resolved, result saved in resolved_a.py_20240823_195613
+
+------------------------------------------
+Fri Aug 23 20:22:39 2024
+ -> File modified: ./sync_folder/a.py
+
+------------------------------------------
+Fri Aug 23 20:22:39 2024
+ -> New backup File Created on: ./sync_folder/a.py
+
+------------------------------------------
+Fri Aug 23 20:22:39 2024
+ -> Local Server: Received file: a.py
+
+------------------------------------------
+Fri Aug 23 20:22:39 2024
+ -> Local Server: No conflict detected. File saved as a.py
+
+------------------------------------------
+Fri Aug 23 20:23:01 2024
+ -> File modified: ./sync_folder/a.py
+
+------------------------------------------
+Fri Aug 23 20:23:01 2024
+ -> New backup File Created on: ./sync_folder/a.py
+
+------------------------------------------
+Fri Aug 23 20:23:01 2024
+ -> Local Server: Received file: a.py
+
+------------------------------------------
+Fri Aug 23 20:23:01 2024
+ -> Local Server: Conflict detected with sync_folder_backup/a.py_20240823_202301
+
+------------------------------------------
+Fri Aug 23 20:23:01 2024
+ -> Local Server: Conflict resolved, result saved in resolved_a.py_20240823_202301
+
+------------------------------------------
+Fri Aug 23 20:23:07 2024
+ -> File modified: ./sync_folder/a.py
+
+------------------------------------------
+Fri Aug 23 20:23:07 2024
+ -> New backup File Created on: ./sync_folder/a.py
+
+------------------------------------------
+Fri Aug 23 20:23:07 2024
+ -> Local Server: Received file: a.py
+
+------------------------------------------
+Fri Aug 23 20:23:07 2024
+ -> Local Server: Conflict detected with sync_folder_backup/a.py_20240823_202307
+
+------------------------------------------
+Fri Aug 23 20:23:07 2024
+ -> Local Server: Conflict resolved, result saved in resolved_a.py_20240823_202307
+
+------------------------------------------
+Fri Aug 23 20:24:45 2024
+ -> File modified: ./sync_folder/a.py
+
+------------------------------------------
+Fri Aug 23 20:24:45 2024
+ -> New backup File Created on: ./sync_folder/a.py
+
+------------------------------------------
+Fri Aug 23 20:24:45 2024
+ -> Local Server: Received file: a.py
+
+------------------------------------------
+Fri Aug 23 20:24:45 2024
+ -> Local Server: Conflict detected with sync_folder_backup/a.py_20240823_202445
+
+------------------------------------------
+Fri Aug 23 20:24:45 2024
+ -> Local Server: Conflict resolved, result saved in resolved_a.py_20240823_202445
+
+------------------------------------------
+Fri Aug 23 20:27:33 2024
+ -> File modified: ./sync_folder/a.py
+
+------------------------------------------
+Fri Aug 23 20:27:33 2024
+ -> New backup File Created on: ./sync_folder/a.py
+
+------------------------------------------
+Fri Aug 23 20:27:33 2024
+ -> Local Server: Received file: a.py
+
+------------------------------------------
+Fri Aug 23 20:27:33 2024
+ -> Local Server: Conflict detected with sync_folder_backup/a.py_20240823_202733
+
+------------------------------------------
+Fri Aug 23 20:27:33 2024
+ -> Local Server: Conflict resolved, result saved in resolved_a.py_20240823_202733
+

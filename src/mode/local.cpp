@@ -10,6 +10,8 @@ void start_local_server(boost::asio::io_context& io_context, unsigned short port
     tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), port));
 
     while (true) {
+        // 开始计数器
+        auto start_time = std::chrono::high_resolution_clock::now();
         std::cout << "Local Server: Waiting for incoming files..." << std::endl;
 
         // 接收文件
@@ -42,12 +44,20 @@ void start_local_server(boost::asio::io_context& io_context, unsigned short port
             logger.log("Local Server: Conflict detected with " + local_file);
 
             // 调用冲突解决模块，生成解决后的文件
-            std::string resolved_file = ConflictResolver::resolve_conflict(local_file, time_received_file);
-            std::cout << "Local Server: Conflict resolved, result saved in " << time_received_file << std::endl;
-            logger.log("Local Server: Conflict resolved, result saved in " + time_received_file);
+            std::string resolved_file = ConflictResolver::resolve_conflict(local_file, received_file);
+            std::cout << "Local Server: Conflict resolved, result saved in " << resolved_file << std::endl;
+            logger.log("Local Server: Conflict resolved, result saved in " + resolved_file);
         } else {
             std::cout << "Local Server: No conflict detected. File saved as " << received_file << std::endl;
             logger.log("Local Server: No conflict detected. File saved as " + received_file);
+        }
+
+        auto end_time = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> elapsed = end_time - start_time;
+
+        std::cout << "Program executed in: " << elapsed.count() << " seconds." << std::endl;
+        if(elapsed.count() < 1000/60){
+            sleep(1000/60-elapsed.count());
         }
     }
 }

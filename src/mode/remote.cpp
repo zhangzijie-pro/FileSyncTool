@@ -27,7 +27,7 @@ void start_remote_server(boost::asio::io_context& io_context, unsigned short por
         }
 
         // 动态生成本地文件路径用于冲突检测
-        std::string local_file = "server_storage/" + received_file;
+        std::string local_file = "server_work_app/" + received_file;
 
         // 检查是否存在同名文件，触发冲突解决机制
         if (std::ifstream(local_file)) {
