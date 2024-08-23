@@ -18,8 +18,7 @@ Docker构建:
 使用方式有:
     1.
         local: (本地)
-        ./FileSyncTool local server
-        ./FileSyncTool local client
+        ./FileSyncTool local
 
 
         remote: (服务器)
