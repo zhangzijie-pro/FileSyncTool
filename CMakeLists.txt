@@ -16,3 +16,7 @@ add_executable(FileSyncTool src/main.cpp src/core/file_watcher.cpp src/core/file
 # 链接 Boost 库
 target_link_libraries(FileSyncTool ${Boost_LIBRARIES})
 
+set_target_properties(FileSyncTool PROPERTIES
+    OUTPUT_NAME "FileSyncTool"
+    SUFFIX ".exe"
+)
