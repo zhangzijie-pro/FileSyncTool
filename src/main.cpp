@@ -7,12 +7,14 @@
 #include "conflict_resolver.cpp"
 #include "local.cpp"
 #include "remote.cpp"
+#include "boost/program_options.hpp"
 
 using boost::asio::ip::tcp;
 
 // 客户端：监控文件夹，检测文件变化并发送文件到服务器
 void start_local_client(boost::asio::io_context& io_context, const std::string& path_to_watch, const std::string& server_host, unsigned short server_port, Logger& logger) {
-    FileWatcher file_watcher(path_to_watch, std::chrono::seconds(2));
+    std::chrono::seconds poll_interval(5);  // 将轮询间隔时间设置为5秒以减少CPU占用
+    FileWatcher file_watcher(path_to_watch, poll_interval);
 
     auto on_change = [&](const std::string& path, const std::string& action) {
         if (action == "created" || action == "modified") {
@@ -60,7 +62,8 @@ void start_local_mode(boost::asio::io_context& io_context, const std::string& pa
 }
 
 void start_remote_client(boost::asio::io_context& io_context, const std::string& path_to_watch, const std::string& server_host, unsigned short server_port, Logger& logger) {
-    FileWatcher file_watcher(path_to_watch, std::chrono::seconds(2));
+    std::chrono::seconds poll_interval(5);  // 将轮询间隔时间设置为5秒以减少CPU占用
+    FileWatcher file_watcher(path_to_watch, poll_interval);
 
     auto on_change = [&](const std::string& path, const std::string& action) {
         if (action == "created" || action == "modified") {
@@ -99,9 +102,10 @@ void start_remote_client(boost::asio::io_context& io_context, const std::string&
 }
 
 int main(int argc, char* argv[]) {
-    if (argc < 2 || argc > 5) {
-        std::cerr << "Usage: " << argv[0] << " <mode> [server_ip] [server_port]" << std::endl;
+    if (argc < 3 || argc > 6) {
+        std::cerr << "Usage: " << argv[0] << " <mode> <path> [server_ip] [server_port]" << std::endl;
         std::cerr << "mode: local or remote" << std::endl;
+        std::cerr << "path: full path or relative path" << std::endl;
         std::cerr << "role: server or client" << std::endl;
         std::cerr << "server_ip: IP address of the remote server (for client only)" << std::endl;
         std::cerr << "server_port: Port number of the remote server (for client only)" << std::endl;
@@ -109,29 +113,28 @@ int main(int argc, char* argv[]) {
     }
 
     std::string mode = argv[1];
-    std::string path_to_watch = "./sync_folder";
+    std::string path_to_watch = argv[2];        // full path
     std::string server_host;
     unsigned short port = 12345; // Default port number
     Logger logger("./synctool.log");
 
     if (mode == "remote") {
-        if (argc != 5) {
+        if (argc != 6) {
             std::cerr << "For remote mode, you must specify server_ip and server_port." << std::endl;
             return 1;
         }
-        server_host = argv[3];
-        port = static_cast<unsigned short>(std::stoi(argv[4]));
+        server_host = argv[4];
+        port = static_cast<unsigned short>(std::stoi(argv[5]));
     }
 
     boost::asio::io_context io_context;
-
 
     if (mode == "local") {
         // 启动本地模式（同时启动服务器和客户端）
         start_local_mode(io_context, path_to_watch, port, logger);
     } else if (mode == "remote") {
         // 分别启动远程服务器或客户端
-        std::string role = argv[2];
+        std::string role = argv[3];
         if (role == "server") {
             start_remote_server(io_context, port, logger);
         } else if (role == "client") {

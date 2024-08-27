@@ -18,5 +18,4 @@ target_link_libraries(FileSyncTool ${Boost_LIBRARIES})
 
 set_target_properties(FileSyncTool PROPERTIES
     OUTPUT_NAME "FileSyncTool"
-    SUFFIX ".exe"
 )
