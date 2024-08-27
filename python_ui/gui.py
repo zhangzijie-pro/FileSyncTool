@@ -127,11 +127,15 @@ class FileSyncUI(tk.Tk):
             self.log_file = os.path.join(folder_to_sync, "../build/synctool.log")
             self.log_output.insert(tk.END, f"Starting {role} in {mode} mode...\n")
 
+            if os.name == "nt":
+                execu_path = "../build/FileSyncTool.exe"
+            else: 
+                execu_path = "../build/FileSyncTool"
 
             if mode == "local":
-                command = ["../build/FileSyncTool", "local"]
+                command = [execu_path, "local"]
             else:  # remote mode
-                command = ["../build/FileSyncTool", "remote", role, ip_address, port]
+                command = [execu_path, "remote", role, ip_address, port]
 
             process = subprocess.Popen(command, cwd=folder_to_sync, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
